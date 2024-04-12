@@ -4,7 +4,9 @@ import anthropic
 print("Start")
 
 openai_keys = json.load(open('C:\\shared\\content\\config\\api-keys\\claude.json'))
-my_openai_key = openai_keys['team-14']
+my_openai_key = openai_keys['team-12']
+
+print(my_openai_key)
 
 client = anthropic.Anthropic(
     # defaults to os.environ.get("ANTHROPIC_API_KEY")
