@@ -3,14 +3,15 @@ import anthropic
 
 print("Start")
 
-openai_keys = json.load(open('C:\\shared\\content\\config\\api-keys\\claude.json'))
-my_openai_key = openai_keys['team-12']
+claude_keys = json.load(open('C:\\shared\\content\\config\\api-keys\\claude.json'))
+my_claude_key = claude_keys['team-14']
 
-print(my_openai_key)
+print(my_claude_key)
+print(type(my_claude_key))
 
 client = anthropic.Anthropic(
-    # defaults to os.environ.get("ANTHROPIC_API_KEY")
-    api_key="my_api_key",
+    
+    api_key=my_claude_key,
 )
 
 message = client.messages.create(
@@ -19,8 +20,8 @@ message = client.messages.create(
     temperature=0.0,
     system="Respond only in Yoda-speak.",
     messages=[
-        {"role": "user", "content": "How are you today?"}
+        {"role": "user", "content": "Write a short blog post about the developer?"}
     ]
 )
 
-print(message.content.text)
+print(message)
