@@ -22,11 +22,37 @@ client = anthropic.Anthropic(
     api_key=my_claude_key,
 )
 
-image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDQLAycA7Nszy0mmlgw_EfN1YHHrvDUILzXHsIrWUkDw&s"
-image_media_type = "image/png"
-image_data = base64.b64encode(httpx.get(image_url).content).decode("utf-8")
+
+# ********************Use this code if you need to consume an image ***************************
+
+# image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDQLAycA7Nszy0mmlgw_EfN1YHHrvDUILzXHsIrWUkDw&s"
+# image_media_type = "image/png"
+# image_data = base64.b64encode(httpx.get(image_url).content).decode("utf-8")
 
 
+
+# message3 = client.messages.create(
+#     model="claude-3-opus-20240229",
+#     max_tokens=1000,
+#     temperature=0.0,
+#     system="Respond",
+#     messages=[
+#         {"role": "user", "content": 
+#          [
+#              {
+#                  "type": "image",
+#                  "source": {
+#                      "type": "base64",
+#                      "media_type": "image/png",
+#                      "data": image_data
+#                  }
+#              },
+#              {"type": "text", "text": f"The image is a Gherkin feature file.  Can you create given when thens in the format of the image provided using the following scenario: {prompt}?"}
+#          ]}
+#     ]
+# )
+
+feature_file = open('feature_file_template.txt', 'r').read()
 
 message3 = client.messages.create(
     model="claude-3-opus-20240229",
@@ -37,19 +63,15 @@ message3 = client.messages.create(
         {"role": "user", "content": 
          [
              {
-                 "type": "image",
-                 "source": {
-                     "type": "base64",
-                     "media_type": "image/png",
-                     "data": image_data
-                 }
+                 "type": "text",
+                 "text": feature_file
              },
-             {"type": "text", "text": f"The image is a Gherkin feature file.  Can you create given when thens in the format of the image provided using the following scenario: {prompt}?"}
+             {"type": "text", "text": f"Can you generate a feature file with as many scenarios as described based on the given when thens using the following scenario: {prompt}?"}
          ]}
     ]
 )
 
-user_story = open('user_story.txt', 'r').read()
+user_story = open('user_story_complex.txt', 'r').read()
 
 
 message4 = client.messages.create(
@@ -68,16 +90,6 @@ message4 = client.messages.create(
          ]}
     ]
 )
-
-# message2 = client.messages.create(
-#     model="claude-3-opus-20240229",
-#     max_tokens=1000,
-#     temperature=0.0,
-#     system="Respond with well defined gherkin files and a standardized user story for a software feature. The o",
-#     messages=[
-#         {"role": "user", "content": prompt}
-#     ]
-# )
 
 print(message3.content)
 with open("GWTxGPT.feature", "w") as file:

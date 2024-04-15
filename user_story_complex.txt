@@ -1,0 +1,17 @@
+User Stories Template
+As a [type of user], I want [some goal] so that [some reason].
+
+Description
+A detailed description of the story, including any relevant context, requirements, and constraints.
+
+Acceptance Criteria
+A list of criteria that must be met for the story to be considered complete.
+ - Acceptance Criteria #1
+ - Acceptance Criteria #2
+ - Acceptance Criteria #3
+
+Testing Considerations
+A list of consideration for the developer when writing and testing code.
+ - Testing Consideration #1
+ - Testing Consideration #2
+ - Testing Consideration #3

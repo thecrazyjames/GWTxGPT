@@ -1,0 +1,7 @@
+Feature: Describes the overall feature that you are testing.
+Scenario: Describes a specific scenario or test case within the feature.
+    Given: Describe the initial state or setup for the scenario.
+    When: Describes the action that triggers the behavior you are testing.
+    Then: Describes the expected outcome or result of the scenario.
+    And: Allows you to add additional Given, When, or Then statements to a scenario.
+    But: Allows you to add an exception or negative case to a scenario.
