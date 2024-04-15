@@ -8,15 +8,14 @@ print("Start")
 claude_keys = json.load(open('C:\\shared\\content\\config\\api-keys\\claude.json'))
 my_claude_key = claude_keys['team-14']
 
-print(my_claude_key)
-print(type(my_claude_key))
+print("TO GENERATE A USER STORY AND GHERKIN FILES PLEASE PROVIDE A GIVEN WHEN THEN SCENARIO")
 
 
-# given = input("Enter a GIVEN Statement for a GIVEN WHEN THEN scenario: ")
-# when = input("Enter a WHEN Statement for a GIVEN WHEN THEN scenario: ")
-# then = input("Enter a THEN Statement for a GIVEN WHEN THEN scenario: ")
+given = input("GIVEN: ")
+when = input("WHEN: ")
+then = input("THEN: ")
 
-# prompt = f"GIVEN: {given}. WHEN: {when}. THEN: {then}"
+prompt = f"GIVEN: {given}. WHEN: {when}. THEN: {then}"
 
 client = anthropic.Anthropic(
     
@@ -27,15 +26,7 @@ image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDQLAycA7Nszy
 image_media_type = "image/png"
 image_data = base64.b64encode(httpx.get(image_url).content).decode("utf-8")
 
-# message1 = client.messages.create(
-#     model="claude-3-opus-20240229",
-#     max_tokens=1000,
-#     temperature=0.0,
-#     system="Respond with well defined gherkin files and a standardized user story for a software feature. The output should be a formatted html file that I can paste into another file.",
-#     messages=[
-#         {"role": "user", "content": prompt}
-#     ]
-# )
+
 
 message3 = client.messages.create(
     model="claude-3-opus-20240229",
@@ -53,7 +44,27 @@ message3 = client.messages.create(
                      "data": image_data
                  }
              },
-             {"type": "text", "text": "The image is a Gherkin feature file.  Can you create given when thens for a food delivery scenario in the format of the image provided?"}
+             {"type": "text", "text": f"The image is a Gherkin feature file.  Can you create given when thens in the format of the image provided using the following scenario: {prompt}?"}
+         ]}
+    ]
+)
+
+user_story = open('user_story.txt', 'r').read()
+
+
+message4 = client.messages.create(
+    model="claude-3-opus-20240229",
+    max_tokens=1000,
+    temperature=0.0,
+    system="Respond",
+    messages=[
+        {"role": "user", "content": 
+         [
+             {
+                 "type": "text",
+                 "text": user_story
+             },
+             {"type": "text", "text": f"Using the user story text included in this prompt and the following feature file details: {message3.content[0].text}. Can you create a fully detailed user story?"}
          ]}
     ]
 )
@@ -68,8 +79,10 @@ message3 = client.messages.create(
 #     ]
 # )
 
-
-
 print(message3.content)
 with open("GWTxGPT.feature", "w") as file:
      file.write(message3.content[0].text)
+
+print(message4.content)
+with open("SampleUserStory.txt", "w") as file:
+     file.write(message4.content[0].text)
